@@ -1,6 +1,5 @@
 package entidades;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
