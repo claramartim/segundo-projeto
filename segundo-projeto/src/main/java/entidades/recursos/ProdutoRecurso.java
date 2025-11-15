@@ -1,4 +1,4 @@
-package recursos;
+package entidades.recursos;
 
 import java.util.List;
 
