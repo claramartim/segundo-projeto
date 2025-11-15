@@ -2,16 +2,25 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Instala dependências essenciais
 RUN apt-get update && apt-get install -y \
     git \
     git-lfs \
     openjdk-21-jdk \
     maven \
     mysql-server \
+    curl \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-RUN echo "CREATE USER 'sergio'@'localhost' IDENTIFIED BY 'q1w2e3r4'; \
-        GRANT ALL PRIVILEGES ON *.* TO 'sergio'@'localhost' WITH GRANT OPTION; \
+# Instala Node.js LTS (recomendado para Angular)
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g @angular/cli
+
+# Configuração inicial do MySQL
+RUN echo "CREATE USER 'clara'@'localhost' IDENTIFIED BY 'Senha@123'; \
+        GRANT ALL PRIVILEGES ON *.* TO 'clara'@'localhost' WITH GRANT OPTION; \
         CREATE DATABASE projeto; \
         FLUSH PRIVILEGES;" > /tmp/script.sql
 
@@ -20,6 +29,8 @@ RUN service mysql start && \
     mysql -uroot < /tmp/script.sql && \
     service mysql stop
 
+# Diretório de trabalho
 WORKDIR /workspace
 
-CMD [ "bash" ]
+# Comando padrão
+CMD ["bash"]
